@@ -23,27 +23,27 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe ItemTypesController, type: :controller do
+RSpec.describe ItemsController, type: :controller do
 
   # This should return the minimal set of attributes required to create a valid
-  # ItemType. As you add validations to ItemType, be sure to
+  # Item. As you add validations to Item, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    { description: "Lençol" }
+    { name: "Lençol 01", item_type: ItemType.new(description: "Lençol") , barcode: "00001"}
   }
 
   let(:invalid_attributes) {
-    { description: nil}
+    { name: nil, item_type: nil, barcode: nil}
   }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
-  # ItemTypesController. Be sure to keep this updated too.
+  # ItemsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   describe "GET #index" do
     it "returns a success response" do
-      item_type = ItemType.create! valid_attributes
+      item = Item.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(response).to be_success
     end
@@ -51,33 +51,33 @@ RSpec.describe ItemTypesController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      item_type = ItemType.create! valid_attributes
-      get :show, params: {id: item_type.to_param}, session: valid_session
+      item = Item.create! valid_attributes
+      get :show, params: {id: item.to_param}, session: valid_session
       expect(response).to be_success
     end
   end
 
   describe "POST #create" do
     context "with valid params" do
-      it "creates a new ItemType" do
+      it "creates a new Item" do
         expect {
-          post :create, params: {item_type: valid_attributes}, session: valid_session
-        }.to change(ItemType, :count).by(1)
+          post :create, params: {item: valid_attributes}, session: valid_session
+        }.to change(Item, :count).by(1)
       end
 
-      it "renders a JSON response with the new item_type" do
+      it "renders a JSON response with the new item" do
 
-        post :create, params: {item_type: valid_attributes}, session: valid_session
+        post :create, params: {item: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:created)
         expect(response.content_type).to eq('application/json')
-        expect(response.location).to eq(item_type_url(ItemType.last))
+        expect(response.location).to eq(item_url(Item.last))
       end
     end
 
     context "with invalid params" do
-      it "renders a JSON response with errors for the new item_type" do
+      it "renders a JSON response with errors for the new item" do
 
-        post :create, params: {item_type: invalid_attributes}, session: valid_session
+        post :create, params: {item: invalid_attributes}, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to eq('application/json')
       end
@@ -87,30 +87,30 @@ RSpec.describe ItemTypesController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        { description: "Coberta" }
+        {name: "Lençol 0001"}
       }
 
-      it "updates the requested item_type" do
-        item_type = ItemType.create! valid_attributes
-        put :update, params: {id: item_type.to_param, item_type: new_attributes}, session: valid_session
-        item_type.reload
-        expect(item_type.description).to eq("Coberta")
+      it "updates the requested item" do
+        item = Item.create! valid_attributes
+        put :update, params: {id: item.to_param, item: new_attributes}, session: valid_session
+        item.reload
+        expect(item.name).to eq("Lençol 0001")
       end
 
-      it "renders a JSON response with the item_type" do
-        item_type = ItemType.create! valid_attributes
+      it "renders a JSON response with the item" do
+        item = Item.create! valid_attributes
 
-        put :update, params: {id: item_type.to_param, item_type: valid_attributes}, session: valid_session
+        put :update, params: {id: item.to_param, item: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to eq('application/json')
       end
     end
 
     context "with invalid params" do
-      it "renders a JSON response with errors for the item_type" do
-        item_type = ItemType.create! valid_attributes
+      it "renders a JSON response with errors for the item" do
+        item = Item.create! valid_attributes
 
-        put :update, params: {id: item_type.to_param, item_type: invalid_attributes}, session: valid_session
+        put :update, params: {id: item.to_param, item: invalid_attributes}, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to eq('application/json')
       end
@@ -118,11 +118,11 @@ RSpec.describe ItemTypesController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested item_type" do
-      item_type = ItemType.create! valid_attributes
+    it "destroys the requested item" do
+      item = Item.create! valid_attributes
       expect {
-        delete :destroy, params: {id: item_type.to_param}, session: valid_session
-      }.to change(ItemType, :count).by(-1)
+        delete :destroy, params: {id: item.to_param}, session: valid_session
+      }.to change(Item, :count).by(-1)
     end
   end
 
