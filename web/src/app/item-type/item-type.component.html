@@ -1,0 +1,34 @@
+<p>
+  Displaying {{ types.length }} item types.
+</p>
+
+<table>
+  <thead>
+  <tr>
+    <th data-field="description">Descrição</th>
+  </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let type of types">
+      <td>{{ type.description }}</td>
+
+      <td>
+        <a [routerLink]="['/item-type', type.id]">
+          Editar
+        </a>
+      </td>
+      <td>
+        <a (click)="deleteItemType(type)" href="">
+          Deletar
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="bottom: 45px; right: 24px;">
+  <a routerLink="/item-type/new">
+    Novo
+  </a>
+</div>

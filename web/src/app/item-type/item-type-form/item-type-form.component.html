@@ -1,0 +1,12 @@
+<div class="container">
+    <h1>{{ title }}</h1>
+    <form (ngSubmit)="save()">
+      <div>
+        <label for="description">Descrição</label>
+        <input type="text" id="description" required [(ngModel)]="itemType.description" name='description'>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+    <hr />
+    <a routerLink="/">Back to Types</a>
+</div>
